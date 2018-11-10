@@ -7,10 +7,10 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ExportToExcelLibrary.Services
 {
-    public class Service : IService
+    public class ExportService : IExportService
     {
         public void CreateExcelFile(IEnumerable<dynamic> exportedData, string path, string sheetName)
-        {           
+        {
             // Вызывает исключение, если выгрузке неприсвоено значение.
             if (exportedData == null)
                 throw new ArgumentNullException();
@@ -21,7 +21,7 @@ namespace ExportToExcelLibrary.Services
 
             // Перегруженный метод перезаписывает отстутсвующие объекты в string.Empty(пустую строку).
             exportedData = exportedData.RemoveNullParams();
-            
+
             // Создаёт Excel документ. 
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
             {

@@ -2,7 +2,7 @@
 
 namespace ExportToExcelLibrary.Services
 {
-    public interface IService
+    public interface IExportService
     {
         void CreateExcelFile(IEnumerable<dynamic> exportedData, string path, string sheetName);
     }
