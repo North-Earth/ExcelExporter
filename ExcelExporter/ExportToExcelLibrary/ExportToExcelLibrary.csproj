@@ -7,13 +7,11 @@
     <NeutralLanguage>en</NeutralLanguage>
     <Copyright>Copyright © Alexey Kukushkin 2018</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Экспортирует данные из БД в Excel.</Description>
+    <Description>Экспортирует данные из БД в Excel</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\**" />
-    <EmbeddedResource Remove="Models\**" />
-    <None Remove="Models\**" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
