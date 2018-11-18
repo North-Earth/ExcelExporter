@@ -5,7 +5,7 @@ using Dapper;
 
 namespace DataLoaderLibrary.Services
 {
-    public class LoaderService : ILoaderService
+    public class LoaderService<T> : ILoaderService<T> where T: class
     {
         // Строка подключения к БД.
         private SqlConnectionStringBuilder ConnectionStringBuilder { get; set; }
@@ -47,6 +47,23 @@ namespace DataLoaderLibrary.Services
             using (var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString))
             {
                 queryResult = connection.Query<dynamic>(sqlExpression);
+            }
+
+            return queryResult;
+        }
+
+        /// <summary>
+        /// Возвращает выгрузку из базы данных в явно типизированном виде.
+        /// </summary>
+        /// <param name="sqlExpression">SQL запрос</param>
+        /// <returns></returns>
+        public IEnumerable<T> GetQueryResultsForType(string sqlExpression)
+        {
+            IEnumerable<T> queryResult = null;
+
+            using (var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString))
+            {
+                queryResult = connection.Query<T>(sqlExpression);
             }
 
             return queryResult;

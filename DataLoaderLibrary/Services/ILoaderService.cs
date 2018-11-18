@@ -2,8 +2,10 @@
 
 namespace DataLoaderLibrary.Services
 {
-    public interface ILoaderService
+    public interface ILoaderService<T> where T : class
     {
         IEnumerable<dynamic> GetQueryResults(string sqlExpression);
+
+        IEnumerable<T> GetQueryResultsForType(string sqlExpression);
     }
 }

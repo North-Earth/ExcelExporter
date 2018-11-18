@@ -46,7 +46,10 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <ComboBox materialDesign:HintAssist.Hint="Сервер" Margin="10">
+                <ComboBox materialDesign:HintAssist.Hint="Сервер" Margin="10"
+                          ItemsSource="{Binding ServersCollection }"
+                          SelectedItem="{Binding SelectedServerModel}"
+                          DisplayMemberPath="Name">
                 </ComboBox>
             </Grid>
 
@@ -56,7 +59,9 @@
             </Grid>
 
             <Grid Grid.Column="2">
-                <ComboBox materialDesign:HintAssist.Hint="База данных | master" Margin="10">
+                <ComboBox materialDesign:HintAssist.Hint="База данных | master" Margin="10"
+                          ItemsSource="{Binding BasesCollection, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedBase}">
                 </ComboBox>
             </Grid>
 
