@@ -11,7 +11,7 @@ namespace DataLoaderLibrary.Services
         private SqlConnectionStringBuilder ConnectionStringBuilder { get; set; }
 
         /// <summary>
-        /// Перегрузка, позволяющая явно указать параметры  строки подключения.
+        /// Перегрузка конструктора, позволяющая явно указать параметры  строки подключения.
         /// </summary>
         /// <param name="connectionString">Строка подключения к БД</param>
         public LoaderService(string connectionString)
@@ -20,7 +20,7 @@ namespace DataLoaderLibrary.Services
         }
 
         /// <summary>
-        /// Перегрузка, генерирующая подключение по названию сервера.
+        /// Перегрузка конструктора, генерирующая подключение по названию сервера.
         /// Используется авторизация подлиности Windows.
         /// </summary>
         /// <param name="serverName">Название сервера</param>
@@ -35,11 +35,13 @@ namespace DataLoaderLibrary.Services
             };
         }
 
-        // Возвращает выгрузку из базыданных в динамическом словаре.
+        /// <summary>
+        /// Возвращает выгрузку из базы данных в динамическом словаре.
+        /// </summary>
+        /// <param name="sqlExpression">SQL запрос</param>
+        /// <returns></returns>
         public IEnumerable<dynamic> GetQueryResults(string sqlExpression)
         {
-            Console.WriteLine(ConnectionStringBuilder.ConnectionString);
-
             IEnumerable<dynamic> queryResult = null;
 
             using (var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString))
