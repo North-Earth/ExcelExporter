@@ -11,5 +11,7 @@ namespace ExcelExporter.WPF.Models
         public string Name { get; set; }
 
         public string Value { get; set; }
+
+        public bool IsConnectionString { get; set; }
     }
 }

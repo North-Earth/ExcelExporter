@@ -9,6 +9,8 @@
         Title="MainWindow" Width="960" Height="540" MinWidth="848" MinHeight="480">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -17,7 +19,7 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
             <materialDesign:ColorZone Padding="22" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                       Mode="PrimaryMid" DockPanel.Dock="Top">
                 <DockPanel>
@@ -36,7 +38,7 @@
             </materialDesign:ColorZone>
         </Grid>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="50"/>
@@ -84,13 +86,19 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <TextBox Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" 
                      Margin="10" AcceptsTab="True"
                      VerticalAlignment="Stretch" AcceptsReturn="True" TextWrapping="Wrap" 
                      VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="SQL запрос:" 
                      IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}"
                      Text="{Binding SqlQuery}"/>
+
+            <materialDesign:Snackbar MessageQueue="{Binding MessageBar}"/>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="2">
+            <materialDesign:Snackbar MessageQueue="{Binding AchievementBar}"/>
         </Grid>
     </Grid>
 </Window>

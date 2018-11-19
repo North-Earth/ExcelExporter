@@ -36,28 +36,11 @@ namespace DataLoaderLibrary.Services
         }
 
         /// <summary>
-        /// Возвращает выгрузку из базы данных в динамическом словаре.
-        /// </summary>
-        /// <param name="sqlExpression">SQL запрос</param>
-        /// <returns></returns>
-        public IEnumerable<dynamic> GetQueryResults(string sqlExpression)
-        {
-            IEnumerable<dynamic> queryResult = null;
-
-            using (var connection = new SqlConnection(ConnectionStringBuilder.ConnectionString))
-            {
-                queryResult = connection.Query<dynamic>(sqlExpression);
-            }
-
-            return queryResult;
-        }
-
-        /// <summary>
         /// Возвращает выгрузку из базы данных в явно типизированном виде.
         /// </summary>
         /// <param name="sqlExpression">SQL запрос</param>
         /// <returns></returns>
-        public IEnumerable<T> GetQueryResultsForType(string sqlExpression)
+        public IEnumerable<T> GetQueryResults(string sqlExpression)
         {
             IEnumerable<T> queryResult = null;
 
