@@ -85,12 +85,27 @@ namespace ExcelExporter.WPF.ViewModels
             set { _basesCollection = value; RaiseOnPropertyChanged(); }
         }
 
+        /* Хранит отображаемое значение по-умолчанию */
+        private string _defaultBaseHint = "База данных | master";
+        public string DefaultBaseHint
+        {
+            get => _defaultBaseHint;
+            set { _defaultBaseHint = value; RaiseOnPropertyChanged(); }
+        }
+
         /* Хранит текущее выбранное название БД */
         private string _selectedBase { get; set; }
         public string SelectedBase
         {
             get => _selectedBase;
             set { _selectedBase = value; RaiseOnPropertyChanged(); }
+        }
+
+        private bool _isEnabledBase { get; set; }
+        public bool IsEnabledBase
+        {
+            get => _isEnabledBase;
+            set { _isEnabledBase = value; RaiseOnPropertyChanged(); }
         }
 
         /* SQL запрос, вводимый пользователем */
@@ -140,7 +155,8 @@ namespace ExcelExporter.WPF.ViewModels
                     Name = "EARTH-199999",
                     Value = @"Data Source=EARTH\EARTH; Initial Catalog=DevelopBase; Integrated Security=True",
                     IsConnectionString = true
-                }
+                },
+                new ServerModel { Name = "Not existing(TEST)", Value = @"TEST\test" },
             };
         }
 
@@ -150,6 +166,8 @@ namespace ExcelExporter.WPF.ViewModels
 
         private void CheckServer()
         {
+            MessageBar.Enqueue("Выполняется подключение к серверу...");
+
             bool isSuccessfully = false;
 
             try
@@ -174,6 +192,34 @@ namespace ExcelExporter.WPF.ViewModels
                     .GetQueryResults("SELECT sdb.name FROM master.dbo.sysdatabases AS sdb")
                     .ToList();
 
+                /* Блокировка/разблокировка компонента выбора БД по-умолчанию */
+                if (!SelectedServerModel.IsConnectionString)
+                {
+                    DefaultBaseHint = $"База данных | master"; /* TODO: перегрузка default */
+                    IsEnabledBase = true;
+                }
+                else
+                {
+                    IsEnabledBase = false;
+                    BasesCollection = null;
+
+                    /* Парсер названия БД */
+                    var connectionSubstrings = SelectedServerModel.Value.Split(';');
+                    string keyword = "Initial Catalog";
+
+                    foreach (var item in connectionSubstrings)
+                    {
+                        if (item.Contains(keyword))
+                        {
+                            DefaultBaseHint = item
+                                .Remove(item.IndexOf(keyword), keyword.Length)
+                                .Trim(new char[] { '=', ' '});
+                        }
+                    }
+
+                    MessageBar.Enqueue("База данных явно указана в строке подключения.");
+                }
+
                 IsConnected = true;
                 isSuccessfully = true;
             }
@@ -187,6 +233,7 @@ namespace ExcelExporter.WPF.ViewModels
                 {
                     BasesCollection = null;
                     IsConnected = false;
+                    IsEnabledBase = false;
                 }
 
                 IsConnection = false;
